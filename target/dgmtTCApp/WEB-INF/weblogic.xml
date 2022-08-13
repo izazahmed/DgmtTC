@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app>
+	<container-descriptor>
+		<prefer-web-inf-classes>true</prefer-web-inf-classes>		 
+	    <show-archived-real-path-enabled>true</show-archived-real-path-enabled>
+	</container-descriptor>
+	<security-role-assignment>
+		<role-name>CANDIDATE</role-name>
+		<principal-name>CANDIDATE</principal-name>
+	</security-role-assignment>
+	<security-role-assignment>
+		<role-name>CANDIDATEEXAM</role-name>
+		<principal-name>CANDIDATEEXAM</principal-name>
+	</security-role-assignment>
+	<session-descriptor>
+	    <cookie-http-only>true</cookie-http-only>
+ 	    <cookie-name>FOOAPPID</cookie-name> 
+	</session-descriptor>
+</weblogic-web-app>

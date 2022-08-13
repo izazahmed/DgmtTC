@@ -1,0 +1,86 @@
+<bean id="sessionFactoryQb"
+	class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<property name="annotatedClasses">
+		<list>
+			<value>com.dgmt.model.Exam</value>
+			<value>com.dgmt.model.Subject</value>
+			<value>com.dgmt.model.QuestionPool</value>
+			<value>com.dgmt.model.Question</value>
+			<value>com.dgmt.model.Contributor</value>
+			<value>com.dgmt.model.Choice</value>
+			<value>com.dgmt.model.Matching</value>
+			<value>com.dgmt.model.ErrorQuestions
+			</value>
+			<value>com.dgmt.model.Resources</value>
+			<value>com.dgmt.model.ExamSubject</value>
+			<value>com.dgmt.model.QBExamWindow</value>
+			<value>com.dgmt.model.QBExamPaper</value>
+			<value>com.dgmt.model.QBExamPaperSection
+			</value>
+			<value>com.dgmt.model.QBSectionPoolSelection
+			</value>
+			<value>com.dgmt.model.CandidateEnrollmentView
+			</value>
+			<value>com.dgmt.model.QBGeneratedQuePaper
+			</value>
+			<value>com.dgmt.model.QBGeneratedQuePaperDtls
+			</value>
+			<value>com.dgmt.model.Status</value>
+			<value>com.dgmt.model.QbUserLogin</value>
+			<value>com.dgmt.model.QbUserRole</value>
+			<value>com.dgmt.model.QbRole</value>
+		</list>
+	</property>
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect
+			</prop>
+			<prop key="hibernate.show_sql">false</prop>
+			
+				<!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+			
+		</props>
+	</property>
+	<property name="dataSource">
+		<ref bean="dataSourceQb" />
+	</property>
+</bean>
+<bean id="transactionManagerQb"
+	class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+
+<!-- So classes/functions with @Transactional get a hibernate txn -->
+<!--<tx:annotation-driven /> -->
+<bean id="examDAOQb" class="com.dgmt.dao.hibernate.ExamDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+<bean id="poolDAO" class="com.dgmt.dao.hibernate.QuestionPoolDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+<bean id="commonDAOQb" class="com.dgmt.dao.hibernate.QBCommonDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+<bean id="importQuestionsDAO" class="com.dgmt.dao.hibernate.ImportQuestionsDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+<bean id="questionsDAO" class="com.dgmt.dao.hibernate.QuestionsDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+<bean id="userManagementDAOQb" class="com.dgmt.dao.hibernate.QbUserManagementDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>

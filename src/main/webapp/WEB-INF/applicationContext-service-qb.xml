@@ -1,0 +1,167 @@
+<bean id="examServiceTargetQb" class="com.dgmt.service.impl.ExamServiceImpl">
+	<property name="examDAO">
+		<ref bean="examDAOQb" />
+	</property>
+	<property name="poolDAO">
+		<ref bean="poolDAO" />
+	</property>
+	<property name="questionsDAO">
+		<ref bean="questionsDAO" />
+	</property>
+</bean>
+
+<bean id="poolServiceTarget" class="com.dgmt.service.impl.QuestionPoolServiceImpl">
+	<property name="poolDAO">
+		<ref bean="poolDAO" />
+	</property>
+	<property name="questionsDAO">
+		<ref bean="questionsDAO" />
+	</property>
+</bean>
+
+<bean id="commonServiceTargetQb" class="com.dgmt.service.impl.QBCommonServiceImpl">
+	<property name="commonDAO">
+		<ref bean="commonDAOQb" />
+	</property>
+</bean>
+
+<bean id="importQuestionServiceTarget" class="com.dgmt.service.impl.ImportQuestionServiceImpl">
+	<property name="importQuestionsDAO">
+		<ref bean="importQuestionsDAO" />
+	</property>
+	<property name="questionsDAO">
+		<ref bean="questionsDAO" />
+	</property>
+</bean>
+
+<bean id="questionServiceTarget" class="com.dgmt.service.impl.QuestionServiceImpl">
+	<property name="questionsDAO">
+		<ref bean="questionsDAO" />
+	</property>
+</bean>
+
+<bean id="userManagementServiceTargetQb" class="com.dgmt.service.impl.QbUserManagementServiceImpl">
+	<property name="userManagementDAOQb">
+		<ref bean="userManagementDAOQb" />
+	</property>
+</bean>
+
+<bean id="hibernateInterceptorQb" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+	<property name="sessionFactory">
+		<ref bean="sessionFactoryQb" />
+	</property>
+</bean>
+
+<bean id="examServiceQb"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="examServiceTargetQb" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="generate*">PROPAGATION_REQUIRED</prop>
+			<prop key="authorize*">PROPAGATION_REQUIRED</prop>
+			<prop key="transfer*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="poolService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="poolServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="commonServiceQb"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="commonServiceTargetQb" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="remove*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="importQuestionService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="importQuestionServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="remove*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="questionService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="questionServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="userManagementServiceQb"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManagerQb" />
+	</property>
+	<property name="target">
+		<ref bean="userManagementServiceTargetQb" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="generate*">PROPAGATION_REQUIRED</prop>
+			<prop key="reset*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>

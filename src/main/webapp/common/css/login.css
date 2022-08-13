@@ -1,0 +1,31 @@
+
+/* Login */
+
+HTML {
+	overflow:auto;
+	WIDTH: 100%;
+}
+
+BODY {
+	background:#650604 url(../images/bg_login-max.gif) repeat-x top left; margin:0px;padding:0px; }
+	
+H1{font:bold 30px Arial, Helvetica, sans-serif;color:#ffba00; padding:0px;margin:0px; padding-bottom:10px;} 
+H5{font:bold 13px Arial, Helvetica, sans-serif;color:#ffba00; padding:0px;margin:0px; padding-bottom:10px;} 
+.pwd{margin-left:70px; background:#7a0706; padding:5px; color:#ccc; width:220px; border:1px solid #b13635; margin-top:20px;}
+.invalid{color:#ffba00;font-size:12px; padding:5px;}
+.pwd{/*filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);-moz-opacity:30%;zoom : 1;*/ 
+}
+
+.login{width:1003px;}
+#login{background: url(../images/login-max.jpg) no-repeat top left; margin:0px;padding:0px;float:left;padding-top:140px;font:bold 11px Arial, Helvetica, sans-serif; color:#fff; width:440px; padding-left:540px; height:auto; min-height:670px;}
+#login p{padding-bottom:5px;margin:0px; line-height:20px;}
+#login label{padding-right:5px; width:60px;float:left;}
+#login .input{height:16px;line-height:16px; width:120px; color:#666;}
+#login a:link,a:visited{color:#fff; text-decoration:underline;}
+#login img{border:none;}
+.loginbutton{margin:0;padding:0;background:url(../images/loginbg_button.gif) no-repeat top left;height:23px;width:56px;border:0; font:bold 12px Arial, Helvetica, sans-serif;color:#fff;}
+.foilautofilluserName,.foilautofill{
+display:none;
+}
+
+

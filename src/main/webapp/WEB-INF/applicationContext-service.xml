@@ -1,0 +1,197 @@
+<bean id="oleExamServiceTarget" class="com.dgmt.service.impl.OleExamServiceImpl">
+	<property name="oleExamDAO">
+		<ref bean="oleExamDAO" />
+	</property>
+</bean>
+
+<bean id="userManagementServiceTarget" class="com.dgmt.service.impl.UserManagementServiceImpl">
+	<property name="userManagementDAO">
+		<ref bean="userManagementDAO" />
+	</property>
+</bean>
+
+<bean id="candidateExaminationTarget" class="com.dgmt.service.impl.CandidateExaminationServiceImpl">
+	<property name="candidateExaminationDAO">
+		<ref bean="candidateExaminationDAO" />
+	</property>
+</bean>
+
+<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+
+<bean id="oleExamService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="oleExamServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="getExam*">PROPAGATION_REQUIRED</prop>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="generate*">PROPAGATION_REQUIRED</prop>
+			<prop key="submit*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="candidateService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="candidateServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="generate*">PROPAGATION_REQUIRED</prop>	
+			<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="candidateServiceTarget" class="com.dgmt.service.impl.CandidateServiceImpl">
+	<property name="candidateDAO">
+		<ref bean="candidateDAO" />
+	</property>
+</bean>
+
+<bean id="candidateEnrllmentService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+	singleton="true">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="candidateEnrServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="candidateEnrServiceTarget" class="com.dgmt.service.impl.CandidateEnrollmentServiceImpl">
+	<property name="candidateEnrollmentDAO">
+		<ref bean="candidateEnrollmentDAO" />
+	</property>
+</bean>
+
+<bean id="userManagementService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="userManagementServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="generate*">PROPAGATION_REQUIRED</prop>
+			<prop key="reset*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="candidateExaminationService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="candidateExaminationTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+</bean>
+
+<bean id="contextApplicationContextProvider" class="com.dgmt.web.ServiceLocator"></bean>
+
+<bean id="messagingServiceTarget" class="com.dgmt.service.impl.MessagingServiceImpl">
+	<property name="userMgtDAO">
+		<ref bean="userManagementDAO" />
+	</property>
+	<property name="enrollmentDAO">
+		<ref bean="candidateEnrollmentDAO" />
+	</property>
+	<property name="oleExamDAO">
+		<ref bean="oleExamDAO" />
+	</property>
+	<property name="jmsTemplate">
+		<ref bean="jmsTemplate" />
+	</property>
+</bean>
+
+<bean id="messagingService"
+	class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager">
+		<ref bean="transactionManager" />
+	</property>
+	<property name="target">
+		<ref bean="messagingServiceTarget" />
+	</property>
+	<property name="transactionAttributes">
+		<props>
+			<prop key="save*">PROPAGATION_REQUIRED</prop>
+			<prop key="delete*">PROPAGATION_REQUIRED</prop>
+			<prop key="update*">PROPAGATION_REQUIRED</prop>
+			<prop key="transfer*">PROPAGATION_REQUIRED</prop>
+			<prop key="reset*">PROPAGATION_REQUIRED</prop>
+			<prop key="*">PROPAGATION_REQUIRED,readOnly
+			</prop>
+		</props>
+	</property>
+</bean>
+<bean id="strongEncryptor"
+    class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
+    
+    <property name="algorithm">
+        <value>PBEWithSHA1AndDESede</value>
+    </property>
+  
+    <property name="password">
+        <value>jasypt</value>
+    </property>
+    <property name="poolSize">
+        <value>4</value>
+    </property>
+ </bean>
+  
+  <bean id="hibernateStringEncryptor"
+    class="org.jasypt.hibernate.encryptor.HibernatePBEStringEncryptor">
+    <property name="registeredName">
+        <value>strongHibernateStringEncryptor</value>
+    </property>
+    <property name="encryptor">
+        <ref bean="strongEncryptor" />
+    </property>
+  </bean>
+

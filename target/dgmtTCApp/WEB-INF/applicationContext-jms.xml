@@ -1,0 +1,174 @@
+<bean id="projectPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath*:weblogic.properties</value>
+		</property>
+</bean>
+
+<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+	<property name="environment">
+		<props>
+			<prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory
+			</prop>
+			<prop key="java.naming.provider.url">${jms.providerURL}</prop>
+			<prop key="java.naming.security.principal">${jms.principal}</prop>
+			<prop key="java.naming.security.credentials">${jms.credentials}</prop>	
+			<!-- 7002 port jms properties -->	
+<!-- 			<prop key="weblogic.security.SSL.ignoreHostnameVerification">"true"</prop> -->
+<!-- 			<prop key="weblogic.security.TrustKeyStore">"CustomTrust"</prop> -->
+<!-- 			<prop key="weblogic.security.CustomTrustKeyStoreFileName">${jms.trustkeystorefileName}</prop> -->
+<!-- 			<prop key="weblogic.security.CustomTrustKeyStoreType">"JKS"</prop> -->
+<!-- 			<prop key="weblogic.security.CustomTrustKeyStorePassPhrase">${jms.keystorepassphrase}</prop> -->
+		</props>
+	</property>
+</bean>
+<bean id="topicConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiTemplate">
+		<ref bean="jndiTemplate" />
+	</property>
+	<property name="jndiName">
+		<value>${jms.ConnectionFactory}</value>
+	</property>
+	<property name="lookupOnStartup" value="false"/>
+	<property name="cache" value="false" />
+	<property name="proxyInterface" value="javax.jms.TopicConnectionFactory" />
+</bean>
+
+<bean id="jmsDestinationResolver"
+	class="org.springframework.jms.support.destination.JndiDestinationResolver">
+	<property name="jndiTemplate">
+		<ref bean="jndiTemplate" />
+	</property>
+	<property name="cache">
+		<value>false</value>
+	</property>
+</bean>
+
+<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	<property name="connectionFactory">
+		<ref bean="topicConnectionFactory" />
+	</property>
+	<property name="destinationResolver">
+		<ref bean="jmsDestinationResolver" />
+	</property>
+</bean>
+
+<bean id="tcDataTopic" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiTemplate">
+		<ref bean="jndiTemplate" />
+	</property>
+	<property name="jndiName">
+		<value>${jms.tcDataTopic}</value>
+	</property>
+	<property name="lookupOnStartup" value="false"/>
+	<property name="cache" value="false" />
+	<property name="proxyInterface" value="javax.jms.Topic" />
+</bean>
+
+<bean id="ansPaperStatusTopic" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiTemplate">
+		<ref bean="jndiTemplate" />
+	</property>
+	<property name="jndiName">
+		<value>${jms.ansStatusTopic}</value>
+	</property>
+	<property name="lookupOnStartup" value="false"/>
+	<property name="cache" value="false" />
+	<property name="proxyInterface" value="javax.jms.Topic" />
+</bean>
+
+<bean id="tcDataListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer" singleton="true">
+    <property name="connectionFactory" ref="topicConnectionFactory" />
+	<property name="destinationResolver" ref="jmsDestinationResolver" />
+    <property name="destinationName" ><value>${jms.tcDataTopic}</value> </property>
+    <property name="subscriptionDurable" value="true"/>    
+    <property name="durableSubscriptionName"><value>TCDataDurableSub${testcenter.id}</value></property>
+    <property name="pubSubDomain" value="true"/>   
+	<property name="messageListener" ref="tcDataSubsciber" />
+    <property name="messageSelector"><value>testCenterId = ${testcenter.message.selector.id}</value></property>
+    <property name="clientId"><value>TCDataSubscriber${testcenter.id}</value></property>
+	<property name="sessionTransacted" value="true"/>
+	<property name="recoveryInterval" value="${listeners.recovery.interval}" />
+	<property name="autoStartup" value="false"/>	
+</bean>
+
+<bean id="tcDataSubsciber" class="com.dgmt.jms.TCDataSubscriber" />
+
+<bean id="ansPaperStatusListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer" singleton="true">
+    <property name="connectionFactory" ref="topicConnectionFactory" />   	 	
+    <property name="destinationResolver" ref="jmsDestinationResolver" />
+    <property name="destinationName" >  <value>${jms.ansStatusTopic}</value> </property>
+    <property name="subscriptionDurable" value="true"/>     
+    <property name="durableSubscriptionName" ><value>AnsSheetDurableSub${testcenter.id}</value></property>
+    <property name="pubSubDomain" value="true"/>   
+	<property name="messageListener" ref="ansPaperStatusSubscriber" />
+	<property name="messageSelector"><value>testCenterId = ${testcenter.message.selector.id}</value></property>
+	<property name="clientId" ><value>TCAnsPaperSubscriber${testcenter.id}</value></property>
+    <property name="sessionTransacted" value="true"/>
+    <property name="recoveryInterval" value="${listeners.recovery.interval}" />   	 	
+    <property name="autoStartup" value="false"/>
+</bean>
+
+<bean id="ansPaperStatusSubscriber" class="com.dgmt.jms.AnsPaperReceiptStatusSubscriber" />
+
+<bean id="examStatusTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <!-- wait 10 seconds before starting repeated execution -->
+    <property name="delay" value="10000" />
+    <property name="period" value="${examstatus.scheduler.repeat.interval}" />
+    <property name="timerTask" ref="transExamStatus" />
+</bean>
+
+<bean id="paperTransTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <!-- wait 10 seconds before starting repeated execution -->
+    <property name="delay" value="10000" />
+    <property name="period" value="${scheduler.repeat.interval}" />
+    <property name="timerTask" ref="transAnsPapers" />
+</bean>
+
+<bean id="machStatusTransTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <!-- wait 10 seconds before starting repeated execution -->
+    <property name="delay" value="10000" />
+    <property name="period" value="${machineStatus.scheduler.repeat.interval}" />
+    <property name="timerTask" ref="transMachStatus" />
+</bean>
+
+
+<bean id="transExamStatus" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+    <property name="targetObject" ref="messagingService" />
+    <property name="targetMethod" value="transferExamStatus" />
+</bean>
+
+<bean id="transAnsPapers" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+    <property name="targetObject" ref="messagingService" />
+    <property name="targetMethod" value="transferAnsweredPapers" />
+</bean>
+
+<bean id="transMachStatus" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+    <property name="targetObject" ref="messagingService" />
+    <property name="targetMethod" value="transferMachineStatus" />
+    <!--<property name="concurrent" value="false"/>
+--></bean>
+
+<bean id="deleteTCDataTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <!-- wait 10 seconds before starting repeated execution -->
+    <property name="delay" value="10000" />
+    <property name="period" value="${tcdatadelete.scheduler.repeat.interval}" />
+    <property name="timerTask" ref="deleteTCData" />
+</bean>
+<bean id="deleteTCData" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+    <property name="targetObject" ref="messagingService" />
+    <property name="targetMethod" value="deleteTCData" />
+</bean>
+
+<bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+    <property name="scheduledTimerTasks">
+        <list>
+            <!-- see the example above -->
+            <ref bean="examStatusTask" />
+            <ref bean="paperTransTask" />
+             <ref bean="machStatusTransTask" />
+             <ref bean="deleteTCDataTask" />
+        </list>
+    </property>
+</bean>
+<!--  qurtz  Scheduling End -->

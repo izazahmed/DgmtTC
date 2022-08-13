@@ -1,0 +1,71 @@
+text.ok = OK
+text.cancel = Cancel
+text.error = Error
+text.warning = Warning
+
+text.color = Color
+text.font = Font
+text.text = Text
+text.thickness = Thickness
+
+text.loading_image = Loading the image ...
+text.loading_annotation = Loading the annotation ...
+text.saving_image = Saving the image ...
+text.processing_image = please wait ...
+text.nothing_to_save = Nothing has been changed
+text.error_loading_image = Error loading image
+text.error_loading_annotation = Error loading annotation
+text.invalid_annotation = Invalid annotation data
+
+text.tofront = Bring To Front
+text.toback = Move To Back
+text.delete = Delete
+text.properties = Properties
+text.rotate_cw = Rotate 90 \u00b0 CW
+text.rotate_ccw = Rotate 90 \u00b0 CCW
+
+button.rotatecw = Rotate picture 90 \u00b0 CW
+button.rotateccw = Rotate picture 90 \u00b0 CCW
+button.fliph = Horizontal flip
+button.flipv = Vertical flip
+button.crop = Crop the picture
+button.move = Move objects
+button.draw = Pencil
+button.draw_options = Pencil Options
+
+button.balloon_options = Balloon Options
+
+button.curve = Free Hand
+button.line = Draw Line
+button.rect = Draw Rectangle
+button.ellipse = Draw Oval
+
+button.balloon1 = Click or drag to add a new balloon
+button.balloon2 = Click or drag to add a new balloon
+button.balloon3 = Click or drag to add a new balloon
+button.balloon4 = Click or drag to add a new balloon
+button.balloon5 = Click or drag to add a new balloon
+button.balloon6 = Click or drag to add a new balloon
+
+button.clipart = Click or drag to add the clipart
+
+undo.object_move = Move
+undo.object_resize = Resize
+undo.object_add = New Object
+undo.object_remove = Delete
+undo.object_tofront = Bring to front
+undo.object_toback = Move to Back
+undo.properties = Properties Change
+undo.rotate = Rotate
+
+button.delete_one = Delete objects picking them
+button.deleteall = Delete all objects
+
+button.print = Print
+button.undo = Undo the last action
+button.redo = Redo the undone action
+button.save = Save
+
+text.confirm_discard_annotations = This will discard the annotations. Continue?
+text.popup_tooltip = <html>Click right button<br>to edit properties</html>
+text.croptooltip = <html>Double click me to apply crop<br> or click on the outside to Cancel</html>

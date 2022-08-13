@@ -1,0 +1,118 @@
+#myjquerymenu{background:url(../images/bg_nav.gif) repeat-x left top;height:35px; /* for resizable browser added on 11thmar2010*/min-width:1000px;}
+
+.jquerycssmenu{
+font: bold 11px arial;
+/*offset of tabs relative to browser left edge*/
+
+}
+
+#myjquerymenu .opaque{opacity:0.4;filter:alpha(opacity=40);color:#000;}
+
+.jquerycssmenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+width:75%;
+float:left;
+position:relative;
+}
+
+/*Top level list items*/
+.jquerycssmenu ul li{
+position: relative;
+display:inline-block;
+float: left;
+z-index:9999;
+padding-top:5px;
+}
+
+
+/*Top level menu link items style*/
+.jquerycssmenu ul li a{
+display: block;
+padding: 5px 15px 5px 10px;
+margin-right: 3px; /*spacing between tabs*/
+background:url(../images/bg_navline.gif) no-repeat top right;
+border-bottom-width: 0;
+color: #fff;
+text-decoration: none;
+}
+
+.jquerycssmenu ul li a.active{color:#F90;}
+
+.jquerycssmenu ul li a:hover{
+/*background:#831f1d  url(../images/bg_menutab-hover.gif) repeat-x top left; tab link background during hover state*/
+color:#F90;
+}
+	
+/*1st sub level menu*/
+.jquerycssmenu ul li ul{
+position: absolute;
+left: 0;
+display: block;
+visibility: hidden;
+z-index:99999;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+*html .jquerycssmenu ul li ul li{
+display: inline;
+float: none;
+margin:0px;
+padding:0px;
+}
+
+.jquerycssmenu ul li ul li{
+display: block;
+float: none;
+margin:0px;
+padding:0px;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jquerycssmenu ul li ul li ul{
+top: 0;
+
+
+}
+
+/* Sub level menu links style */
+.jquerycssmenu ul li ul li a{
+font: normal 11px Arial;
+width: 180px; /*width of sub menus*/
+padding:7px;
+background: #f9f9f9 url(../images/bg_submenu.gif) bottom center repeat-x;
+color: black;
+margin: 0;
+border-top-width: 0;
+border-bottom: 1px solid #ccc;
+}
+
+*html .jquerycssmenu ul li ul li a:hover{ /*sub menus hover style*/
+background: #000;
+color:white;
+height:auto;
+font-weight:bold;
+}
+
+.jquerycssmenu ul li ul li a:hover{ /*sub menus hover style*/
+background: #831f1d;
+color:white;
+font-weight:bold;
+}
+
+
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+position: absolute;
+top: 12px;
+right: 5px;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 5px;
+right: 5px;
+}

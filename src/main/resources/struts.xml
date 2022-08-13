@@ -1,0 +1,158 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.multipart.maxSize" value="100000000" />
+	<constant name="struts.action.extension" value="dgmt" />
+	<constant name="struts.serve.static" value="true" />
+	<constant name="struts.custom.i18n.resources" value="package" />
+	
+	
+    <package name="default" extends="struts-default">    
+      
+     <result-types>
+     	<result-type name="json" class="com.googlecode.jsonplugin.JSONResult"/>
+		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		 <result-type name="redirect-action" class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+	</result-types>
+     
+     <interceptors>
+			<interceptor name="sessiontimeout"
+				class="com.dgmt.web.action.SessionTimeOutInterceptor">
+			</interceptor>
+			<interceptor-stack name="sessionTimeOutStack">
+				<interceptor-ref name="sessiontimeout" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+	</interceptors>		
+		
+		 <default-interceptor-ref name="sessionTimeOutStack"></default-interceptor-ref>
+		 
+		<global-results>            
+            <result name="sessionExpired">/login.jsp</result>
+            <result name="vaidatorError" type="redirect">/validateError.jsp</result>
+        </global-results>
+     
+		<action name="login" method="login" class="com.dgmt.web.action.LoginAction">
+            <result name="login">/login.jsp</result>
+            <result name ="candidate" type="redirect">oleCandidateHomeMenu.dgmt</result>
+            <result name ="changepassword">/changePassword.jsp</result>
+            <result name ="changecandidatepassword">/changeCandidatePassword.jsp</result>
+        	<result name ="success" type="redirect">logout.dgmt</result>
+        </action>
+        
+        <action name="tokenCheck" method="tokenCheck" class="com.dgmt.web.action.LoginAction">
+        	<result name ="tokenCheck" type="redirect">${url}</result>
+        	<result name="login">/login.jsp</result>
+        </action>
+        
+        <action name="logout" method="logout" class="com.dgmt.web.action.LoginAction">
+            <result name="logout">/index.jsp</result>
+            <result name="autoClose">/AutoCloseExample2.html</result>
+        </action> 
+           
+  		<action name="forgotPassword" method="forgotPassword" class="com.dgmt.web.action.LoginAction">
+          <result name ="forgotPassword">/forgotPassword.jsp</result>
+        </action>           
+         
+        <action name="forgotPassValidation" method="checkSecurityAns" class="com.dgmt.web.action.LoginAction">
+          <result name ="error">/forgotPassword.jsp</result>
+          <result name ="success" type="redirect">${url}</result>          
+        </action> 
+        
+        <action name="saveOrUpdateChangePassword" class="com.dgmt.web.action.LoginAction" method="saveOrUpdateChangePassword">
+        	<result name ="success" type="redirect">login.dgmt</result>
+        </action>
+        
+        <action name="oleCandidateHomeMenu" class="com.dgmt.web.action.MenuAction" method="showOLECandidateHome">
+        	<result name="success" type="tiles">oleCandidateHome</result>
+        </action>
+            
+        <action name="checkSessionStatus" method="checkSessionStatus" class="com.dgmt.web.action.LoginAction">
+        </action>        
+        
+		<!-- candidate examination  -->
+		 
+        <action name="validateSecureKey"   class="com.dgmt.web.action.CandidateExaminationAction"  method="isSecureKeyValid">
+            <result name ="success" type="redirect">viewCandidateExams.dgmt</result>  
+        </action>
+        <action name="viewCandidateExams" class="com.dgmt.web.action.CandidateExaminationAction"   method="viewCandidateExams">
+            <result name ="success" type="tiles">viewCandidateExams</result>
+            <result name ="error" type="tiles">examsUnavailable</result>
+        </action>
+        <action name="viewCandidateExamsList" class="com.dgmt.web.action.CandidateExamsListAction"   method="viewCandidateExamsList">
+            <result type="json"/>         
+        </action>
+        
+        <action name="validateProcterKey" class="com.dgmt.web.action.CandidateExaminationAction"   method="isProcterKeyValid">
+            <result name ="success" type="redirect">viewExamDetails.dgmt</result>
+        </action>
+        <action name="oleGeneratedQuestionPaper" class="com.dgmt.web.action.CandidateExaminationAction"   method="getOleGeneratedQuestionPaper"/>
+        
+        <action name="viewCandidateExamDetails" class="com.dgmt.web.action.CandidateExaminationAction"   method="viewCandiateExamDetails">
+            <result name ="success" type="tiles">viewCandidateExamDetails</result>
+        </action>
+        <action name="updateGenQuePaper" class="com.dgmt.web.action.CandidateExaminationAction"   method="updateGenQuePaper"/>
+        
+        <action name="viewQuestionPaper" class="com.dgmt.web.action.CandidateExaminationAction"   method="getQuestionPaper"/>
+        <action name="getCandidateQuestion" class="com.dgmt.web.action.CandidateExaminationAction"   method="getQuestion">
+        	<result name="success">/oleQuestionPaper.jsp</result>
+        </action>
+		<action name="reviewQuestion" class="com.dgmt.web.action.CandidateExaminationAction"   method="setReviewQuestion"/>
+		<action name="showReviewQuestionsList" class="com.dgmt.web.action.CandidateExaminationAction"   method="showReviewQuestions"/>
+		
+        <action name="validateCandidate" class="com.dgmt.web.action.CandidateExaminationAction"   method="validateCandidate"/>
+		<!-- End candidate examination  -->
+		
+         <!-- Auto Save functionality for Candidate Examination -->
+         <action name="autoSave" class="com.dgmt.web.action.CandidateExaminationAction" method="autoSaveSubjectiveQuestion"/>
+         
+         <!-- Auto Save functionality for Candidate Examination Timer-->
+         <action name="autoSaveToLastUpdateTime" class="com.dgmt.web.action.CandidateExaminationAction" method="autoSaveToLastUpdateTime"/>
+    
+        <!--  view question Paper  -->
+        	
+        <action name="examinationMenu" class="com.dgmt.web.action.MenuAction" method="showExamination">
+        	<result name ="success" type="tiles">showExaminationPage</result> 
+        </action>
+        
+         <action name="showQuestionPaper" class="com.dgmt.web.action.CandidateExaminationAction" method="showQuestionPaper">
+        	<result name ="success">/oleQuestionPaper.jsp</result>
+        </action>
+        <action name="saveImage" class="com.dgmt.web.action.CandidateExaminationAction" method="saveImage">
+        	<result name ="success">/view.jsp</result>
+        </action>
+        
+		<action name="versionInfo">
+        <result>/versionInfo.jsp</result>
+        </action>
+        
+        <action name="saveOrUpdateChangeCandidatePassword" class="com.dgmt.web.action.LoginAction" method="saveOrUpdateChangeCandidatePassword">
+        	<result name ="success">/login.jsp</result>
+        	<result name ="error">/forgotPassword.jsp</result>
+        </action>
+        
+        <action name="getSecurityDetails" class="com.dgmt.web.action.LoginAction" method="checkSecurityDetails" />
+
+ 		<action name="viewImageMarks" class="com.dgmt.web.action.CandidateExaminationAction" method="viewImageMarks">
+        	<result name ="success">/chkImageMarkLic.jsp</result>
+        </action>    
+        
+        <action name="download"	class="com.dgmt.web.action.FileDownloadAction">
+			<param name="inputPath">${inputPath}</param>
+			<result name="success" type="stream" >
+				<param name="contentType">${docType}</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename=${filename}</param>
+				<param name="bufferSize">4096</param>
+			</result>				  
+		</action>  
+        
+	</package>
+	
+</struts>

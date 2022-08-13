@@ -1,0 +1,13 @@
+/*
+Copyright (c) 2008, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.6.0
+*/
+body{font:arial,helvetica,clean,sans-serif;}
+
+select,input,button,textarea{arial,helvetica,clean,sans-serif;}
+table{}
+pre,code,kbd,samp,tt{font-family:monospace;
+line-height:100%;}
+

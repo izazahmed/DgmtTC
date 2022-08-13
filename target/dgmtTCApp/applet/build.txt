@@ -1,0 +1,5 @@
+ImageMARK
+Version 1.0.2
+Last build July 28, 2010
+Copyright 2010 Igor Zhukovsky
+www.izhuk.com

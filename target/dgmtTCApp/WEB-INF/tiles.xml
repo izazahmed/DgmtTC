@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="layouts/classicLayout.jsp">
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="oleCandidateHome" extends="baseLayout">
+		<put-attribute name="body" value="/candidateHome.jsp" />
+	</definition>
+	<definition name="viewCandidateExams" extends="baseLayout">
+		<put-attribute name="body" value="/candidateExaminations.jsp" />
+	</definition>
+	<definition name="viewCandidateExamDetails" extends="baseLayout">
+		<put-attribute name="body" value="/viewExamDetails.jsp" />
+	</definition>
+	<definition name="viewExamPaper" extends="baseLayout">
+		<put-attribute name="body" value="/oleQuestionPaper.jsp" />
+	</definition>
+	<definition name="viewQuestionPaper" extends="baseLayout">
+		<put-attribute name="body" value="/viewQuestionPaper.jsp" />
+	</definition>
+	<definition name="showExaminationPage" extends="baseLayout">
+		<put-attribute name="body" value="/candidateExaminationHome.jsp" />
+	</definition>
+	<definition name="examsUnavailable" extends="baseLayout">
+		<put-attribute name="body" value="/examsUnavilabale.jsp" />
+	</definition>
+</tiles-definitions>

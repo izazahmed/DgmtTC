@@ -1,0 +1,93 @@
+<bean id="sessionFactory"
+	class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<property name="annotatedClasses">
+		<list>
+			<value>com.dgmt.model.TestCenter</value>
+			<value>com.dgmt.model.State</value>
+			<value>com.dgmt.model.OleExam</value>
+			<value>com.dgmt.model.OleSubject</value>
+			<value>com.dgmt.model.OleQuestionPool
+			</value>
+			<value>com.dgmt.model.ExamWindow</value>
+			<value>com.dgmt.model.ProctorKey</value>
+			<value>com.dgmt.model.TimeSlot</value>
+			<value>com.dgmt.model.OleExamSubject
+			</value>
+			<value>com.dgmt.model.Candidate</value>
+			<value>com.dgmt.model.ExamPaper</value>
+			<value>com.dgmt.model.ExamPaperSection
+			</value>
+			<value>com.dgmt.model.SectionPoolSelection
+			</value>
+			<value>com.dgmt.model.UserLogin</value>
+			<value>com.dgmt.model.UserRole</value>
+			<value>com.dgmt.model.Role</value>
+			<value>com.dgmt.model.CandidateEnrollememt
+			</value>
+			<value>com.dgmt.model.CandidateEnrollmentDetails
+			</value>
+			<!--<value>com.dgmt.model.CandidateEnrollmentView
+			</value>
+			--><value>com.dgmt.model.Status</value>
+			<!--<value>com.dgmt.model.CandidateResults
+			</value>
+			--><value>com.dgmt.model.OleContributor
+			</value>
+			<value>com.dgmt.model.OleQuestion</value>
+			<value>com.dgmt.model.OleChoice</value>
+			<value>com.dgmt.model.OleMatching</value>
+			<value>com.dgmt.model.GeneratedQuePaperDtls</value>
+			<value>com.dgmt.model.GeneratedQuePaper</value>			
+			<value>com.dgmt.model.CandidateSubjects</value>
+			<value>com.dgmt.model.Resources</value>		
+			<value>com.dgmt.model.AnsweredPapersTransferStatus</value> 
+			<value>com.dgmt.model.SecurityQuestion</value>
+		</list>
+	</property>
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect
+			</prop>
+			<prop key="hibernate.show_sql">false</prop>
+			
+				<!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+			
+		</props>
+	</property>
+	<property name="dataSource">
+		<ref bean="dataSource" />
+	</property>
+</bean>
+<bean id="transactionManager"
+	class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+
+<bean id="oleExamDAO" class="com.dgmt.dao.hibernate.OleExamDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+
+<bean id="candidateDAO" class="com.dgmt.dao.hibernate.CandidateDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+<bean id="candidateEnrollmentDAO" class="com.dgmt.dao.hibernate.CandidateEnrDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+<bean id="userManagementDAO" class="com.dgmt.dao.hibernate.UserManagementDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
+<bean id="candidateExaminationDAO" class="com.dgmt.dao.hibernate.CandidateExaminationDAOHibernate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory" />
+	</property>
+</bean>
